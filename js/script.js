@@ -3,6 +3,7 @@ let inputBtn = document.getElementById("input-btn");
 let foodContainer = document.getElementById("food-container");
 let noListEl = document.getElementById("no-list");
 const foodListStatistics = document.getElementById("food-list-statistics");
+const alertDiv = document.querySelector(".alert");
 
 const localStorageKey = "foodItems";
 
@@ -39,6 +40,11 @@ const handleInputFood = () => {
   // creating li element
   let newFoodItemEl = document.createElement("li");
 
+  if(inputFood.value.trim()===""){
+    alert("Please add your favourite food item..!")
+    return
+  }
+
   let div = document.createElement("div"); //for list-item
   let divBtn = document.createElement("div");
 
@@ -68,6 +74,15 @@ const handleInputFood = () => {
   inputFood.value = "";
 
   refreshUI();
+
+  // Show alert message
+  if (alertDiv) {
+    alertDiv.textContent = "New Food Item is updated.!";
+    alertDiv.classList.add("show");
+    setTimeout(() => {
+      alertDiv.classList.remove("show");
+    }, 3000); // Remove the alert after 3 seconds
+  }
 };
 
 inputBtn.addEventListener("click", handleInputFood);
@@ -113,4 +128,16 @@ function refreshUI() {
     if (noListEl) noListEl.hidden = false;
     if (foodListStatistics) foodListStatistics.hidden = true;
   }
+
+  // Show background image only when there are no food items
+  if (foodContainer.children.length === 0) {
+    noListEl.style.display = "block";
+  } else {
+    noListEl.style.display = "none";
+  }
+}
+
+// Hide alert message initially
+if (alertDiv) {
+  alertDiv.classList.remove("show");
 }
